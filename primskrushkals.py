@@ -88,3 +88,44 @@ edges = [
 ]
 
 kruskal_algorithm(5, edges)
+
+import sys
+
+def dijkstra(graph, start):
+    n = len(graph)
+    visited = [False] * n
+    dist = [sys.maxsize] * n
+    dist[start] = 0
+
+    for _ in range(n):
+        # Pick the unvisited node with the smallest distance
+        min_dist = sys.maxsize
+        u = -1
+        for i in range(n):
+            if not visited[i] and dist[i] < min_dist:
+                min_dist = dist[i]
+                u = i
+
+        visited[u] = True
+
+        # Update distances to neighbors
+        for v in range(n):
+            if graph[u][v] and not visited[v]:
+                if dist[u] + graph[u][v] < dist[v]:
+                    dist[v] = dist[u] + graph[u][v]
+
+    # Print shortest distances from start
+    print(f"Shortest distances from node {start}:")
+    for i in range(n):
+        print(f"Node {i} : {dist[i]}")
+
+# Graph from earlier
+graph = [
+    [0, 2, 3, 0, 0],
+    [2, 0, 4, 6, 5],
+    [3, 4, 0, 0, 7],
+    [0, 6, 0, 0, 8],
+    [0, 5, 7, 8, 0]
+]
+
+dijkstra(graph, 0)
